@@ -1,5 +1,6 @@
 from time import sleep
 from datetime import datetime, timedelta
+from os.path import join
 
 # Shell exec, used for audio activity checks and data forwarding
 from subprocess import check_output, call
@@ -20,8 +21,8 @@ CONF_forward_delay = 60
 CONF_away_delay = 1 * 60
 # Command run when moving samples to relay. Change your destination VM here
 CONF_forward_cmd = "qvm-move-to-vm sys-services %s"
-# Location where samples are stored before being moved to relay. Make sure folder exists, and add a final forward slash
-CONF_storage_location = "/home/alexis/.qmt/"
+# Location where samples are stored before being moved to relay. Make sure folder exists
+CONF_storage_location = "/home/alexis/.qmt"
 # Debug logs ?
 CONF_debug = False
 
@@ -110,7 +111,7 @@ def write_data(data, now):
   filename = "qmt_" + str(to_timestamp(now)) + ".json"
 
   try:
-    with open(CONF_storage_location + filename, 'w') as f:
+    with open(join(CONF_storage_location, filename), 'w') as f:
       f.write(data)
   except Exception as e:
     log(str(e))
